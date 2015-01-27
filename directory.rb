@@ -23,3 +23,6 @@ puts "Tom Coakes"
 puts "Tommaso Bratto"
 puts "Vanessa Virgitti"
 puts "Yannick Brunner"
+print "Overall, we have "
+print 23
+puts " great students"
