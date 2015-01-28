@@ -1,10 +1,38 @@
-# Let's put all students into an array
+def interactive_menu
+  students = []
+  loop do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+
+    selection = gets.chomp
+
+    case selection
+      when "1"
+        students = input_students()
+      when "2"
+        if students.length > 0
+          print_header()
+          print(students)
+          print_footer(students)
+        else
+          puts "\nYou haven't entered any students yet!\n\n"
+        end
+      when "9"
+        exit
+      else
+        puts "I don't know what you meant, try again"
+    end
+  end
+end
+
+
 def remove_return_char(string)
   string.gsub(/\n/, '')
 end
 
 def input_students
-  puts "Please enter the name of the student, press return, then enter their cohort and press return again."
+  puts "\nPlease enter the name of the student, press return, then enter their cohort and press return again."
   puts "To finish, just hit return twice"
 
   students = []
@@ -40,6 +68,7 @@ def list_cohorts(students)
 end
 
 def print_header
+  puts
   puts "The students of my cohort at Makers Academy"
   puts "-----------------------------------".center(43)
   puts
@@ -60,9 +89,12 @@ end
 def print_footer(names)
   puts "\nOverall, we have #{names.length} great student" if names.length == 1
   puts "\nOverall, we have #{names.length} great students" if names.length > 1
+  puts
 end
 
+interactive_menu
 
+=begin
 students = input_students
 print_header
 if students.length > 0
@@ -71,3 +103,4 @@ else
   puts "You didn't enter any students."
 end
 print_footer(students)
+=end
