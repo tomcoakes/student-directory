@@ -2,8 +2,9 @@
 
 def print_menu
   puts "1. Input students"
-    puts "2. Show the students"
-    puts "9. Exit"
+  puts "2. Show the students"
+  puts "3. Save the list to students.csv"
+  puts "9. Exit"
 end
 
 def show_students
@@ -22,6 +23,8 @@ def process(selection)
       input_students
     when "2"
       show_students
+    when "3"
+      save_students
     when "9"
       exit
     else
@@ -35,8 +38,6 @@ def interactive_menu
     process(gets.chomp)
   end
 end
-
-
 
 
 
@@ -72,6 +73,7 @@ def list_cohorts()
 end
 
 
+
 def print_header
   puts
   puts "The students of my cohort at Makers Academy"
@@ -93,6 +95,20 @@ def print_footer(names)
   puts "\nOverall, we have #{names.length} great student" if names.length == 1
   puts "\nOverall, we have #{names.length} great students" if names.length > 1
   puts
+end
+
+
+
+def save_students
+  #open the file for writing
+  file = File.open("students", "w")
+  #iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(',')
+    file.puts csv_line
+  end
+  file.close
 end
 
 interactive_menu
