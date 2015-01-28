@@ -16,8 +16,17 @@ def input_students
     month = gets.chomp.to_sym
     month = :February if month.empty?
   end
-
   students
+end
+
+def list_cohorts(students)
+  array_of_cohorts = []
+  students.each do |student|
+    if !array_of_cohorts.include? student[:cohort]
+      array_of_cohorts << student[:cohort]
+    end
+  end
+  array_of_cohorts.sort
 end
 
 def print_header
@@ -26,20 +35,22 @@ def print_header
   puts
 end
 
+
 def print(students)
-  students.each_with_index { |student, index| puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)".center(43) }
-
-  #  i = 0
-  #  while i < students.length
-  #    puts "#{i + 1}. #{students[i][:name]} (#{students[i][:cohort]})"
-  #    i += 1
-  #  end
-
+  list_cohorts(students).each do |cohort|
+    students.each_with_index do |student, index|
+      if student[:cohort] == cohort.to_sym
+        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)".center(43)
+      end
+    end
+  end
 end
+
 
 def print_footer(names)
   puts "\nOverall, we have #{names.length} great students"
 end
+
 
 students = input_students
 print_header
