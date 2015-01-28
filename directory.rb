@@ -9,6 +9,11 @@ def input_students
 
   students = []
   name = remove_return_char(gets)
+  
+  if name == ''
+    return students
+  end
+  
   month = remove_return_char(gets).to_sym
 
   month = :February if month.empty?
@@ -36,7 +41,7 @@ end
 
 def print_header
   puts "The students of my cohort at Makers Academy"
-  puts "---------------".center(43)
+  puts "-----------------------------------".center(43)
   puts
 end
 
@@ -53,11 +58,16 @@ end
 
 
 def print_footer(names)
-  puts "\nOverall, we have #{names.length} great students"
+  puts "\nOverall, we have #{names.length} great student" if names.length == 1
+  puts "\nOverall, we have #{names.length} great students" if names.length > 1
 end
 
 
 students = input_students
 print_header
-print(students)
+if students.length > 0
+  print(students)
+else
+  puts "You didn't enter any students."
+end
 print_footer(students)
