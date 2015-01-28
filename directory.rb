@@ -8,7 +8,7 @@ end
 
 def show_students
   if @students.length > 0
-    print_header()
+    print_header
     print_students_list
     print_footer(@students)
   else
@@ -19,9 +19,9 @@ end
 def process(selection)
   case selection
     when "1"
-      input_students()
+      input_students
     when "2"
-      show_students()
+      show_students
     when "9"
       exit
     else
@@ -31,37 +31,31 @@ end
 
 def interactive_menu
   loop do
-    print_menu()
+    print_menu
     process(gets.chomp)
   end
 end
 
 
 
-def remove_return_char(string)
-  string.gsub(/\n/, '')
-end
+
 
 def input_students
   puts "\nPlease enter the name of the student, press return, then enter their cohort and press return again."
   puts "To finish, just hit return twice"
 
-  name = remove_return_char(gets)
+  name = gets.chomp
+  return @students if name == ''
   
-  if name == ''
-    return @students
-  end
-  
-  month = remove_return_char(gets).to_sym
-
+  month = gets.chomp.to_sym
   month = :February if month.empty?
 
   while !name.empty? do
     @students << {:name => name, :cohort => month, :bootcamp => :makersacademy}
     puts "Now we have #{@students.length} student" if @students.length == 1
     puts "Now we have #{@students.length} students" if @students.length > 1
-    name = remove_return_char(gets)
-    month = remove_return_char(gets).to_sym
+    name = gets.chomp
+    month = gets.chomp.to_sym
     month = :February if month.empty?
   end
   @students
@@ -77,13 +71,13 @@ def list_cohorts()
   array_of_cohorts.sort
 end
 
+
 def print_header
   puts
   puts "The students of my cohort at Makers Academy"
   puts "-----------------------------------".center(43)
   puts
 end
-
 
 def print_students_list
   list_cohorts.each do |cohort|
@@ -94,7 +88,6 @@ def print_students_list
     end
   end
 end
-
 
 def print_footer(names)
   puts "\nOverall, we have #{names.length} great student" if names.length == 1
