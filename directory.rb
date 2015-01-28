@@ -11,7 +11,8 @@ def input_students
 
   while !name.empty? do
     students << {:name => name, :cohort => month, :bootcamp => :makersacademy}
-    puts "Now we have #{students.length} students"
+    puts "Now we have #{students.length} student" if students.length == 1
+    puts "Now we have #{students.length} students" if students.length > 1
     name = gets.chomp
     month = gets.chomp.to_sym
     month = :February if month.empty?
