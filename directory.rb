@@ -1,23 +1,31 @@
-def interactive_menu
-  students = []
-  loop do
-    puts "1. Input the students"
+@students = []
+
+def print_menu
+  puts "1. Input students"
     puts "2. Show the students"
     puts "9. Exit"
+end
 
+def show_students
+  if @students.length > 0
+    print_header()
+    print(@students)
+    print_footer(@students)
+  else
+    puts "\nYou haven't entered any students yet!\n\n"
+  end
+end
+
+
+def interactive_menu
+  loop do
+    print_menu()
     selection = gets.chomp
-
     case selection
       when "1"
-        students = input_students()
+        @students = input_students()
       when "2"
-        if students.length > 0
-          print_header()
-          print(students)
-          print_footer(students)
-        else
-          puts "\nYou haven't entered any students yet!\n\n"
-        end
+        show_students()
       when "9"
         exit
       else
@@ -35,11 +43,11 @@ def input_students
   puts "\nPlease enter the name of the student, press return, then enter their cohort and press return again."
   puts "To finish, just hit return twice"
 
-  students = []
+#  students = []
   name = remove_return_char(gets)
   
   if name == ''
-    return students
+    return @students
   end
   
   month = remove_return_char(gets).to_sym
@@ -47,14 +55,14 @@ def input_students
   month = :February if month.empty?
 
   while !name.empty? do
-    students << {:name => name, :cohort => month, :bootcamp => :makersacademy}
-    puts "Now we have #{students.length} student" if students.length == 1
-    puts "Now we have #{students.length} students" if students.length > 1
+    @students << {:name => name, :cohort => month, :bootcamp => :makersacademy}
+    puts "Now we have #{@students.length} student" if @students.length == 1
+    puts "Now we have #{@students.length} students" if @students.length > 1
     name = remove_return_char(gets)
     month = remove_return_char(gets).to_sym
     month = :February if month.empty?
   end
-  students
+  @students
 end
 
 def list_cohorts(students)
