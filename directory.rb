@@ -9,30 +9,33 @@ end
 def show_students
   if @students.length > 0
     print_header()
-    print(@students)
+    print_students_list
     print_footer(@students)
   else
     puts "\nYou haven't entered any students yet!\n\n"
   end
 end
 
+def process(selection)
+  case selection
+    when "1"
+      input_students()
+    when "2"
+      show_students()
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again"
+  end
+end
 
 def interactive_menu
   loop do
     print_menu()
-    selection = gets.chomp
-    case selection
-      when "1"
-        @students = input_students()
-      when "2"
-        show_students()
-      when "9"
-        exit
-      else
-        puts "I don't know what you meant, try again"
-    end
+    process(gets.chomp)
   end
 end
+
 
 
 def remove_return_char(string)
@@ -43,7 +46,6 @@ def input_students
   puts "\nPlease enter the name of the student, press return, then enter their cohort and press return again."
   puts "To finish, just hit return twice"
 
-#  students = []
   name = remove_return_char(gets)
   
   if name == ''
@@ -65,9 +67,9 @@ def input_students
   @students
 end
 
-def list_cohorts(students)
+def list_cohorts()
   array_of_cohorts = []
-  students.each do |student|
+  @students.each do |student|
     if !array_of_cohorts.include? student[:cohort]
       array_of_cohorts << student[:cohort]
     end
@@ -83,9 +85,9 @@ def print_header
 end
 
 
-def print(students)
-  list_cohorts(students).each do |cohort|
-    students.each_with_index do |student, index|
+def print_students_list
+  list_cohorts.each do |cohort|
+    @students.each_with_index do |student, index|
       if student[:cohort] == cohort.to_sym
         puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)".center(43)
       end
@@ -101,14 +103,3 @@ def print_footer(names)
 end
 
 interactive_menu
-
-=begin
-students = input_students
-print_header
-if students.length > 0
-  print(students)
-else
-  puts "You didn't enter any students."
-end
-print_footer(students)
-=end
