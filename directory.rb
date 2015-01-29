@@ -1,3 +1,5 @@
+require 'CSV'
+
 @students = []
 
 def try_load_students
@@ -122,12 +124,10 @@ end
 ############################
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-      name, month = line.chomp.split(',')
+    CSV.foreach("./students.csv") do |row|
+      name, month = row
       add_to_students_array(name, month)
     end
-  end
 end
 
 def save_students
