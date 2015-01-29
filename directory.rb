@@ -31,14 +31,19 @@ def process(selection)
     when "2"
       show_students
     when "3"
-      save_students
+      save_students(choose_file)
     when "4"
-      load_students
+      load_students(choose_file)
     when "9"
       exit
     else
       puts "I don't know what you meant, try again"
   end
+end
+
+def choose_file
+  puts "What's the name of the file you wish to load/save from/to?"
+  filename = gets.chomp
 end
 
 def print_menu
@@ -124,14 +129,18 @@ end
 ############################
 
 def load_students(filename = "students.csv")
-    CSV.foreach("./students.csv") do |row|
+  if !File.exists?(filename)
+    return nil
+  else
+    CSV.foreach(filename) do |row|
       name, month = row
       add_to_students_array(name, month)
     end
+  end
 end
 
-def save_students
-  CSV.open("./students.csv", "w") do |csv|
+def save_students(filename = "students.csv")
+  CSV.open(filename, "w") do |csv|
     @students.each do |student|
       student_data = [student[:name], student[:cohort]]
       csv << student_data
