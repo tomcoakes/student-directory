@@ -56,11 +56,11 @@ def input_students
   name = STDIN.gets.chomp
   return @students if name == ''
   
-  month = STDIN.gets.chomp.to_sym
+  month = STDIN.gets.chomp
   month = :February if month.empty?
 
   while !name.empty? do
-    @students << {:name => name, :cohort => month, :bootcamp => :makersacademy}
+    add_to_students_array(name, month)
     puts "Now we have #{@students.length} student" if @students.length == 1
     puts "Now we have #{@students.length} students" if @students.length > 1
     name = STDIN.gets.chomp
@@ -103,6 +103,12 @@ def print_footer(names)
   puts
 end
 
+############################
+
+def add_to_students_array(name, month)
+  @students << {:name => name, :cohort => month.to_sym}
+end
+
 def list_cohorts()
   array_of_cohorts = []
   @students.each do |student|
@@ -118,8 +124,8 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    @students << {:name => name, :cohort => cohort.to_sym}
+    name, month = line.chomp.split(',')
+    add_to_students_array(name, month)
   end
   file.close
 end
