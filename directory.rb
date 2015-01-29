@@ -1,20 +1,24 @@
 @students = []
 
-def print_menu
-  puts "1. Input students"
-  puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
-  puts "9. Exit"
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.length} students from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
 end
 
-def show_students
-  if @students.length > 0
-    print_header
-    print_students_list
-    print_footer(@students)
-  else
-    puts "\nYou haven't entered any students yet!\n\n"
+############################
+
+def interactive_menu
+  try_load_students
+  loop do
+    print_menu
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -35,15 +39,15 @@ def process(selection)
   end
 end
 
-def interactive_menu
-  try_load_students
-  loop do
-    print_menu
-    process(STDIN.gets.chomp)
-  end
+def print_menu
+  puts "1. Input students"
+  puts "2. Show the students"
+  puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
+  puts "9. Exit"
 end
 
-
+############################
 
 def input_students
   puts "\nPlease enter the name of the student, press return, then enter their cohort and press return again."
@@ -66,17 +70,15 @@ def input_students
   @students
 end
 
-def list_cohorts()
-  array_of_cohorts = []
-  @students.each do |student|
-    if !array_of_cohorts.include? student[:cohort]
-      array_of_cohorts << student[:cohort]
-    end
+def show_students
+  if @students.length > 0
+    print_header
+    print_students_list
+    print_footer(@students)
+  else
+    puts "\nYou haven't entered any students yet!\n\n"
   end
-  array_of_cohorts.sort
 end
-
-
 
 def print_header
   puts
@@ -101,19 +103,17 @@ def print_footer(names)
   puts
 end
 
-
-
-def try_load_students
-  filename = ARGV.first
-  return if filename.nil?
-  if File.exists?(filename)
-    load_students(filename)
-    puts "Loaded #{@students.length} students from #{filename}"
-  else
-    puts "Sorry, #{filename} doesn't exist."
-    exit
+def list_cohorts()
+  array_of_cohorts = []
+  @students.each do |student|
+    if !array_of_cohorts.include? student[:cohort]
+      array_of_cohorts << student[:cohort]
+    end
   end
+  array_of_cohorts
 end
+
+############################
 
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
@@ -133,5 +133,7 @@ def save_students
   end
   file.close
 end
+
+############################
 
 interactive_menu
