@@ -130,7 +130,8 @@ end
 
 def load_students(filename = "students.csv")
   if !File.exists?(filename)
-    return nil
+    puts "I can't find that file... Are you sure it exists?\n\n"
+    return
   else
     CSV.foreach(filename) do |row|
       name, month = row
